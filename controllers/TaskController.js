@@ -14,7 +14,10 @@ const taskcreate = async(req, res)=>{
 
 const deleteTask = async(req , res)=>{
     try {
-        const deletetask = await task.findByIdAndDelete(req.params.id);
+        const deletetask = await task.findByIdAndDelete({
+            _id : req.params.id,
+            userId : req.user.userId,
+        });
 
         res.status(200).json({msg: "task deleted successfully"});
 
@@ -27,7 +30,7 @@ const deleteTask = async(req , res)=>{
 
 const updatetask = async(req, res)=>{
     try {
-        const update = await task.findByIdAndUpdate(req.params.id , req.body);
+        const update = await task.findByIdAndUpdate({_id : req.params.id , userId : req.user.userId, }, req.body);
 
         res.status(200).json({msg: "updated successfully"});
         
@@ -38,7 +41,7 @@ const updatetask = async(req, res)=>{
 }
 const getAlltask = async(req, res)=>{
     try {
-        const gettask = await task.find();
+        const gettask = await task.find({userId : req.user.userId});
         res.status(200).json({msg: "here is all tasks" , task: gettask}); 
         
     } catch (error) {
