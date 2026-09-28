@@ -2,7 +2,7 @@ const task = require("../models/Taskschema");
 
 const taskcreate = async(req, res)=>{
     try {
-        const tasks = await task.create(req.body);
+        const tasks = await task.create({...req.body, userId : req.user.userId});
 
         res.status(201).json({msg:"task created"});
         
